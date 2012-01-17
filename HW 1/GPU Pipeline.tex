@@ -5,33 +5,31 @@
 	pdfauthor={Phil Monroe},
 	pdftitle={The Low Down on Graphics Pipelines}}
 	
-	
 \begin{document}
 
-\title{The Low Down on Graphics Pipelines}
-\author{Phil Monroe}
-\date{Jan. 17, 2011}
+% \title{The Low Down on Graphics Pipelines}
+% \author{Phil Monroe}
+% \date{Jan. 17, 2011}
 % \maketitle
 
-\centerline{
-	\Large \bf The Low Down on Graphics Pipelines} %% Paper title
+% Title
+\centerline{\Large \bf The Low Down on Graphics Pipelines}
 
-% \medskip
-
+% Author
 \centerline{\bf Phil Monroe}
-% \medskip
 
+% Date
 \centerline{Jan. 17, 2011}
-
 \bigskip
 
+
 % Intro ----------------------------------------------------------------------
-Graphic processing units (GPUs) are becoming increasingly important in modern computing. Largely driven by video games, today's computer software  demands higher performance and stunning visuals from GPUs. GPUs start out with several different objects and combine them to form an image in a series of stages called the graphics pipeline. For the sake of this article, think of an image where there is a soccer ball sitting on a table inside of a room. This article describes how this scene can be created on computer by going through all of the stages of the GPU pipeline.
+Graphic processing units (GPUs) are becoming increasingly important in modern computing. Driven by video games, today's computer software demands higher performance and stunning visuals from GPUs. GPUs start out with several different objects and combine them to form an image in a series of stages called the graphics pipeline. Consider an image where there is a soccer ball sitting on a table inside of a room. This article will describe how this scene can be created on a computer by using the graphics pipeline.
 
 % Application ----------------------------------------------------------------
-The graphics pipeline begins with the \emph{application} stage where running software interacts with the GPU. The first step of this stage is to build 3 dimensional models of each object that will be present in the scene. In the case of our soccer ball scene, each object is modeled independently. The 3D models of each of the objects are created using a mesh of triangles. To help visualize this mesh, consider the soccer ball. Real soccer balls are patches of hexagons and pentagons sewn together to form a round ball. So why use triangles instead of hexagons and pentagons to create objects? Well it turns out that complex geometries, such as the hexagons and pentagons, can be broken down into triangles. Triangles also have mathematical properties that make processing the models quicker. Each triangle is defined by the three points that connect the sides, which are know as the vertices. To make these meshes of triangles more realistic looking, textures, which are images that seem to cover the 3D model like skin, are created and will be applied in later stages in the pipeline.
+The graphics pipeline begins with the \emph{application} stage where running software interacts with the GPU. The first step of this stage is to build 3 dimensional models of each object that will be present in the scene. The 3D models of each of the objects are created using a mesh of triangles. To help visualize this mesh, consider the soccer ball. Real soccer balls are patches of hexagons and pentagons sewn together to form a round ball. So why use triangles instead of hexagons and pentagons to create objects? Well it turns out that complex geometries, such as the hexagons and pentagons, can be broken down into triangles. Triangles also have mathematical properties that make processing the models quicker. Each triangle is defined by the three points that connect the sides, which are know as the vertices. To make these meshes of triangles more realistic looking, textures, which are images that seem to cover the 3D model like skin, are created and will be applied in later stages in the pipeline.
 
-It is important to note that each 3D model is in it's own coordinate space called model space. This means that each model of an object contains absolutely no information about any of the other objects. Our soccer ball is floating in it's own universe where the only thing that exists is the soccer ball. Now the application needs to start transferring all of these models to the GPU to assemble into a scene. Along with the models, the application passes information on how the models should placed within the scene, the textures they have, where the lights are and at what direction the user is looking at the models.
+It is important to note that each 3D model is in its own coordinate space called model space; Therefore, each model of an object has absolutely no information about any of the other objects. Our soccer ball is floating in its own universe where the only thing that exists is the soccer ball. Now the application needs to start transferring all of the models to the GPU to assemble into a scene. Along with the models, the application passes information on how the models should be placed within the scene, the textures they have, where the lights are and at what direction the user is looking at the models.
 
 % Geometry -------------------------------------------------------------------
 Now that the GPU knows about all of the objects that will be present, it can start piecing together the scene in what is called the \emph{geometry} stage. The first step in the geometry stage is to combine all of the models into a common world. This is done by using mathematical transformations to move the objects from model space into what is called world space. After the transformations, all objects lie in the same universe and are spaced properly. 
@@ -42,8 +40,8 @@ It is now time to consider the viewpoint of the user, which is called the camera
 
 Now we need to start making the scene two dimensional. This is accomplished by taking each object and projecting the 3D mesh of visible triangles onto a 2D plane, which produces 2D objects at various distances, or depth, away from the camera. Visualize this as if we were creating a cartoon out of construction paper. We would first create each of the characters and objects in a certain frame and then form layers to determine depth within the scene. 
 
+% Programmable Shaders -----------------------------------------------------
 To preform most of the transformations in this stage, the GPU uses a special \emph{programmable shader} that is called the vertex shader. A programmable shader is a customizable piece of hardware that modifies data based off a recipe defined by the software developer. The vertex shader focuses on getting the geometry right in the 3D to 2D transformation. This is highly customizable to allow developers to shape the world exactly as they see fit.
-
 
 % Rasterization --------------------------------------------------------------
 Next, consider what our scene will be displayed on: the screen. Screens are two dimensional grids of colored dots called pixels. Think of them as a sheet of graph paper where you can only color in the individual squares to draw a picture. If the squares are small enough, images can be drawn with very high detail. So how are we going convert layers of 2D triangles into a bunch of pixels? This conversion process is called \emph{rasterization}. The rasterization process is similar to taking all of the 2D objects in our scene, laying them out on a sheet of graph paper representing the screen, and filling in the area of each object with little squares. Each little square within the blocky rasterized object is called a fragment and contains all of the information, such as position, initial color and opacity, needed to draw that square on the screen. At the end of the rasterization process, every object in the scene will be converted into boxy rasterized objects at varying depths.
@@ -81,17 +79,11 @@ To display the final image, individual pixels are sent to the screen by reading 
 	\item Wikipedia - Graphics Pipeline \newline
 	\url {http://en.wikipedia.org/wiki/Graphics_pipeline}
 	
-	\item  Wikipedia - Shaders \newline
+	\item Wikipedia - Shaders \newline
 	\url {http://en.wikipedia.org/wiki/Shader}
 	
-	\item  Eric Sink -  It's All About Triangles \newline
+	\item Eric Sink - It's All About Triangles \newline
 	\url {http://www.ericsink.com/wpf3d/5_Triangles.html}	
-
-
-
-	
 \end{itemize}
-
-
 
 \end{document}
